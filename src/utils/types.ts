@@ -1,9 +1,9 @@
-enum Status {
+export enum Status {
   active = 'Active',
   terminated = 'Terminated',
 }
 
-enum Department {
+export enum Department {
   sales = 'Sales',
   marketing = 'Marketing',
   humanResources = 'Human Resources',
