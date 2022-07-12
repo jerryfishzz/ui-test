@@ -16,3 +16,7 @@ const store: User[] = [
     status: Status.terminated,
   },
 ]
+
+export const getUsers = (): Promise<User[]> => {
+  return Promise.resolve(store)
+}
