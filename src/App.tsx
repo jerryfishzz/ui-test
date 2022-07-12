@@ -1,125 +1,142 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { getUsers } from './utils/server'
-import { User } from './utils/types'
+import { AppStatus, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
+  const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
 
   useEffect(() => {
+    setAppStatus(AppStatus.loading)
     getUsers()
       .then(users => {
         console.log(users)
         setUsers(users)
+        setAppStatus(AppStatus.idle)
       })
-  })
+      .catch(err => {
+        console.log(err)
+        setAppStatus(AppStatus.idle)
+      })
+  }, [])
 
   return (
     <div className="ui text container">
       <h1>UI Test</h1>
 
-      <div>
-        <div id="toggle-terminated" className="ui toggle checkbox">
-          <input type="checkbox" />
-          <label>Show Terminated Employees</label>
-        </div>
-      </div>
+      {appStatus === AppStatus.loading ? (
+        <p>Loading</p>
+      ) : (
+        <>
+          <div>
+            <div id="toggle-terminated" className="ui toggle checkbox">
+              <input type="checkbox" />
+              <label>Show Terminated Employees</label>
+            </div>
+          </div>
 
-      <table className="ui very basic table">
-        <thead>
-          <tr>
-            <th className="collapsing center aligned">
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </th>
-            <th>Name</th>
-            <th>Department</th>
-            <th className="right aligned">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Alex</td>
-            <td>Sales</td>
-            <td className="right aligned">
-              <span className="ui green label">Active</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Brian</td>
-            <td>Marketing</td>
-            <td className="right aligned">
-              <span className="ui green label">Active</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Caroline</td>
-            <td>Human Resources</td>
-            <td className="right aligned">
-              <span className="ui black label">Terminated</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Diana</td>
-            <td>Support</td>
-            <td className="right aligned">
-              <span className="ui green label">Active</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Ernest</td>
-            <td>Product</td>
-            <td className="right aligned">
-              <span className="ui green label">Active</span>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </td>
-            <td>Fred</td>
-            <td>Accounting</td>
-            <td className="right aligned">
-              <span className="ui black label">Terminated</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          {users.length === 0 ? (
+            <p>No users found.</p>
+          ) : (
+            <table className="ui very basic table">
+              <thead>
+                <tr>
+                  <th className="collapsing center aligned">
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </th>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th className="right aligned">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Alex</td>
+                  <td>Sales</td>
+                  <td className="right aligned">
+                    <span className="ui green label">Active</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Brian</td>
+                  <td>Marketing</td>
+                  <td className="right aligned">
+                    <span className="ui green label">Active</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Caroline</td>
+                  <td>Human Resources</td>
+                  <td className="right aligned">
+                    <span className="ui black label">Terminated</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Diana</td>
+                  <td>Support</td>
+                  <td className="right aligned">
+                    <span className="ui green label">Active</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Ernest</td>
+                  <td>Product</td>
+                  <td className="right aligned">
+                    <span className="ui green label">Active</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div className="ui checkbox">
+                      <input type="checkbox" />
+                      <label></label>
+                    </div>
+                  </td>
+                  <td>Fred</td>
+                  <td>Accounting</td>
+                  <td className="right aligned">
+                    <span className="ui black label">Terminated</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+        </>
+      )}
 
       <div>
         <button

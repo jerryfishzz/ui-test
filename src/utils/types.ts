@@ -17,3 +17,8 @@ export interface User {
   department: Department
   status: Status
 }
+
+export enum AppStatus {
+  loading,
+  idle,
+}
