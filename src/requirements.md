@@ -1,3 +1,7 @@
+# Exercise
+
+## Build a simple React application that
+
 - queries employees from a backend server of choice based on Show Terminated Employees status
 
 - updates the employees based off a backend server call when the user toggles the Show Terminated Employees
