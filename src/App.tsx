@@ -54,7 +54,7 @@ function App() {
               <span className="ui green label">Active</span>
             </td>
           </tr>
-          <tr data-terminated>
+          <tr>
             <td>
               <div className="ui checkbox">
                 <input type="checkbox" />
@@ -93,7 +93,7 @@ function App() {
               <span className="ui green label">Active</span>
             </td>
           </tr>
-          <tr data-terminated>
+          <tr>
             <td>
               <div className="ui checkbox">
                 <input type="checkbox" />
