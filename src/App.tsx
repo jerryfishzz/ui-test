@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
+import { getUsers } from './utils/server'
+import { User } from './utils/types'
 
 function App() {
+  const [users, setUsers] = useState<User[]>([])
+
+  useEffect(() => {
+    getUsers()
+      .then(users => {
+        console.log(users)
+        setUsers(users)
+      })
+  })
+
   return (
     <div className="ui text container">
       <h1>UI Test</h1>
