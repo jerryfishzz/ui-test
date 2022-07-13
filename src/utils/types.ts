@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 export enum Status {
   active = 'Active',
   terminated = 'Terminated',
@@ -26,4 +28,11 @@ export enum AppStatus {
 export enum ColorClasses {
   green = 'green',
   black = 'black',
+}
+
+export interface CheckboxProps {
+  selected: number
+  length: number
+  checked: boolean
+  setChecked: Dispatch<SetStateAction<boolean>>
 }
