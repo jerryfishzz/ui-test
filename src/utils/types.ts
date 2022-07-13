@@ -39,4 +39,6 @@ export interface CheckboxProps {
 
 export interface UserRowProps {
   user: User
+  checkedFromAbove: boolean
+  setSelected?: Dispatch<SetStateAction<number>>
 }

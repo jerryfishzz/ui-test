@@ -62,7 +62,12 @@ function App() {
               </thead>
               <tbody>
                 {users.map(user => (
-                  <UserRow key={user.name} user={user} />
+                  <UserRow
+                    key={user.name}
+                    user={user}
+                    checkedFromAbove={checked}
+                    setSelected={setSelected}
+                  />
                 ))}
               </tbody>
             </table>
