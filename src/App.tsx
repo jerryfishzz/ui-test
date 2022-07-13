@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import Checkbox from './components/Checkbox'
+import UserRow from './components/UserRow'
 import { getUsers } from './utils/server'
-import { AppStatus, User, Status, ColorClasses } from './utils/types'
-
-const createClassName = (status: Status): string => {
-  const statusClassName =
-    status === Status.active ? ColorClasses.green : ColorClasses.black
-  return `ui ${statusClassName} label`
-}
+import { AppStatus, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -67,21 +62,7 @@ function App() {
               </thead>
               <tbody>
                 {users.map(user => (
-                  <tr key={user.name}>
-                    <td>
-                      <div className="ui checkbox">
-                        <input type="checkbox" />
-                        <label></label>
-                      </div>
-                    </td>
-                    <td>{user.name}</td>
-                    <td>{user.department}</td>
-                    <td className="right aligned">
-                      <span className={createClassName(user.status)}>
-                        {user.status}
-                      </span>
-                    </td>
-                  </tr>
+                  <UserRow key={user.name} user={user} />
                 ))}
               </tbody>
             </table>

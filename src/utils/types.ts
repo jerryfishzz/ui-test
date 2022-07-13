@@ -36,3 +36,7 @@ export interface CheckboxProps {
   checked: boolean
   setChecked: Dispatch<SetStateAction<boolean>>
 }
+
+export interface UserRowProps {
+  user: User
+}
