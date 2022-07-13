@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+import Checkbox from './components/Checkbox'
 import { getUsers } from './utils/server'
 import { AppStatus, User, Status, ColorClasses } from './utils/types'
 
@@ -12,6 +13,9 @@ const createClassName = (status: Status): string => {
 function App() {
   const [users, setUsers] = useState<User[]>([])
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
+
+  const [selected, setSelected] = useState<number>(0)
+  const [checked, setChecked] = useState<boolean>(false)
 
   useEffect(() => {
     setAppStatus(AppStatus.loading)
@@ -49,10 +53,12 @@ function App() {
               <thead>
                 <tr>
                   <th className="collapsing center aligned">
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
+                    <Checkbox
+                      selected={selected}
+                      length={users.length}
+                      checked={checked}
+                      setChecked={setChecked}
+                    />
                   </th>
                   <th>Name</th>
                   <th>Department</th>
