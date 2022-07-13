@@ -22,3 +22,8 @@ export enum AppStatus {
   loading,
   idle,
 }
+
+export enum ColorClasses {
+  green = 'green',
+  black = 'black',
+}

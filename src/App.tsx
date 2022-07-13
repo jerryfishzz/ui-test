@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import { getUsers } from './utils/server'
-import { AppStatus, User } from './utils/types'
+import { AppStatus, User, Status, ColorClasses } from './utils/types'
+
+const createClassName = (status: Status): string => {
+  const statusClassName =
+    status === Status.active ? ColorClasses.green : ColorClasses.black
+  return `ui ${statusClassName} label`
+}
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -54,84 +60,23 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Alex</td>
-                  <td>Sales</td>
-                  <td className="right aligned">
-                    <span className="ui green label">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Brian</td>
-                  <td>Marketing</td>
-                  <td className="right aligned">
-                    <span className="ui green label">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Caroline</td>
-                  <td>Human Resources</td>
-                  <td className="right aligned">
-                    <span className="ui black label">Terminated</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Diana</td>
-                  <td>Support</td>
-                  <td className="right aligned">
-                    <span className="ui green label">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Ernest</td>
-                  <td>Product</td>
-                  <td className="right aligned">
-                    <span className="ui green label">Active</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="ui checkbox">
-                      <input type="checkbox" />
-                      <label></label>
-                    </div>
-                  </td>
-                  <td>Fred</td>
-                  <td>Accounting</td>
-                  <td className="right aligned">
-                    <span className="ui black label">Terminated</span>
-                  </td>
-                </tr>
+                {users.map(user => (
+                  <tr key={user.name}>
+                    <td>
+                      <div className="ui checkbox">
+                        <input type="checkbox" />
+                        <label></label>
+                      </div>
+                    </td>
+                    <td>{user.name}</td>
+                    <td>{user.department}</td>
+                    <td className="right aligned">
+                      <span className={createClassName(user.status)}>
+                        {user.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}
