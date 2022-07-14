@@ -16,8 +16,12 @@ function App() {
     setAppStatus(AppStatus.loading)
     getUsers()
       .then(users => {
-        console.log(users)
+        // console.log(users)
         setUsers(users)
+
+        // When initial value of checked is true, enable this line
+        // setSelected(users.length)
+
         setAppStatus(AppStatus.idle)
       })
       .catch(err => {
@@ -67,6 +71,7 @@ function App() {
                     user={user}
                     checkedFromAbove={checked}
                     setSelected={setSelected}
+                    length={users.length}
                   />
                 ))}
               </tbody>

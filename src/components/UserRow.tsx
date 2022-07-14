@@ -9,10 +9,15 @@ const createClassName = (status: Status): string => {
 
 export default function UserRow({
   user,
+  length,
   checkedFromAbove,
   setSelected,
 }: UserRowProps) {
-  const [checked, , handleChange] = useCheckbox(checkedFromAbove, setSelected)
+  const [checked, , handleChange] = useCheckbox(
+    length,
+    checkedFromAbove,
+    setSelected
+  )
 
   return (
     <tr key={user.name}>
