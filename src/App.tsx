@@ -3,7 +3,7 @@ import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import UserRow from './components/UserRow'
 import { getUsers } from './utils/server'
-import { AppStatus, User } from './utils/types'
+import { AppStatus, Checkbox, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -12,6 +12,12 @@ function App() {
   const [selected, setSelected] = useState<number>(0)
   const [checked, setChecked] = useState<boolean>(false)
 
+  const [checkbox, setChechbox] = useState<Checkbox>({
+    max: 0,
+    checked: false,
+    selected: 0,
+  })
+
   useEffect(() => {
     setAppStatus(AppStatus.loading)
     getUsers()
@@ -19,8 +25,10 @@ function App() {
         // console.log(users)
         setUsers(users)
 
-        // When initial value of checked is true, enable this line
-        // setSelected(users.length)
+        setChechbox(current => ({
+          ...current,
+          max: users.length,
+        }))
 
         setAppStatus(AppStatus.idle)
       })
@@ -53,10 +61,8 @@ function App() {
                 <tr>
                   <th className="collapsing center aligned">
                     <ParentCheckbox
-                      selected={selected}
-                      length={users.length}
-                      checked={checked}
-                      setChecked={setChecked}
+                      parentCheckbox={checkbox}
+                      setParentCheckbox={setChechbox}
                     />
                   </th>
                   <th>Name</th>

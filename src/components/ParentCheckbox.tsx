@@ -2,31 +2,28 @@ import { useEffect, useRef } from 'react'
 import { ParentCheckboxProps } from '../utils/types'
 
 export default function ParentCheckbox({
-  selected,
-  length,
-  checked,
-  setChecked,
+  parentCheckbox,
+  setParentCheckbox,
 }: ParentCheckboxProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const { max, checked, selected } = parentCheckbox
+
   const handleChange = () => {
-    setChecked(prev => !prev)
+    setParentCheckbox(current => ({
+      ...current,
+      checked: !current.checked,
+      selected: !current.checked === true ? current.max : 0,
+    }))
   }
 
   useEffect(() => {
-    // The conditon here can avoid the loop bug
-    // when both selected and length are 0.
-    if (!selected) {
-      setChecked(false)
-      if (inputRef.current) inputRef.current.indeterminate = false
-    } else if (selected > 0 && selected < length) {
+    if (selected > 0 && selected < max) {
       if (inputRef.current) inputRef.current.indeterminate = true
-    } else if (selected === length) {
-      // This condition should be only for when length is not 0
-      setChecked(true)
+    } else {
       if (inputRef.current) inputRef.current.indeterminate = false
     }
-  }, [length, selected, setChecked])
+  }, [max, selected])
 
   return (
     <div className="ui checkbox">

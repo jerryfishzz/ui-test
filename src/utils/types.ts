@@ -27,15 +27,19 @@ export enum AppStatus {
   idle,
 }
 
+export interface Checkbox {
+  max: number
+  checked: boolean
+  selected: number
+}
+
 /*****************************************************/
 
 // Component props
 
 export interface ParentCheckboxProps {
-  selected: number
-  length: number
-  checked: boolean
-  setChecked: Dispatch<SetStateAction<boolean>>
+  parentCheckbox: Checkbox
+  setParentCheckbox: Dispatch<SetStateAction<Checkbox>>
 }
 
 export interface UserRowProps {
