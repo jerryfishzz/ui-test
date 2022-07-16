@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
+// States
+
 export enum Status {
   active = 'Active',
   terminated = 'Terminated',
@@ -25,10 +27,9 @@ export enum AppStatus {
   idle,
 }
 
-export enum ColorClasses {
-  green = 'green',
-  black = 'black',
-}
+/*****************************************************/
+
+// Component props
 
 export interface ParentCheckboxProps {
   selected: number
@@ -42,4 +43,13 @@ export interface UserRowProps {
   checkedFromAbove: boolean
   length: number
   setSelected?: Dispatch<SetStateAction<number>>
+}
+
+/*****************************************************/
+
+// Misc
+
+export enum ColorClasses {
+  green = 'green',
+  black = 'black',
 }
