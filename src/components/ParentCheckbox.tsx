@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
-import { CheckboxProps } from '../utils/types'
+import { ParentCheckboxProps } from '../utils/types'
 
-export default function Checkbox({
+export default function ParentCheckbox({
   selected,
   length,
   checked,
   setChecked,
-}: CheckboxProps) {
+}: ParentCheckboxProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = () => {

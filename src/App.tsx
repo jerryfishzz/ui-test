@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import Checkbox from './components/Checkbox'
+import ParentCheckbox from './components/ParentCheckbox'
 import UserRow from './components/UserRow'
 import { getUsers } from './utils/server'
 import { AppStatus, User } from './utils/types'
@@ -52,7 +52,7 @@ function App() {
               <thead>
                 <tr>
                   <th className="collapsing center aligned">
-                    <Checkbox
+                    <ParentCheckbox
                       selected={selected}
                       length={users.length}
                       checked={checked}

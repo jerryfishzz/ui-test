@@ -30,7 +30,7 @@ export enum ColorClasses {
   black = 'black',
 }
 
-export interface CheckboxProps {
+export interface ParentCheckboxProps {
   selected: number
   length: number
   checked: boolean
