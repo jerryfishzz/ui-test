@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react'
+import ts from 'typescript'
 import { ChildCheckboxState, ChildCheckboxProps } from '../utils/types'
 
+const getNextSelected = (currentSelected: ts.Set<string>) => {
+  const nextSelected: string[] = []
+  currentSelected.forEach(value => nextSelected.push(value))
+
+  return new Set<string>(nextSelected)
+}
+
 export default function ChildCheckbox({
+  user,
   checkedFromParent,
   setParentCheckbox,
 }: ChildCheckboxProps) {
@@ -32,28 +41,30 @@ export default function ChildCheckbox({
     if (checkbox.checked) {
       if (checkbox.fromParent === false) {
         setParentCheckbox(current => {
-          const nextSelected = current.selected + 1
+          const nextSelected = getNextSelected(current.selected)
+          nextSelected.add(user.name)
 
           return {
             ...current,
-            checked: nextSelected >= current.max ? true : current.checked,
-            selected: nextSelected >= current.max ? current.max : nextSelected,
+            checked: nextSelected.size === current.max ? true : current.checked,
+            selected: nextSelected,
           }
         })
       }
     } else {
       if (checkbox.fromParent === false)
         setParentCheckbox(current => {
-          const nextSelected = current.selected - 1
+          const nextSelected = getNextSelected(current.selected)
+          nextSelected.delete(user.name)
 
           return {
             ...current,
-            checked: nextSelected <= 0 ? false : current.checked,
-            selected: nextSelected <= 0 ? 0 : nextSelected,
+            checked: nextSelected.size === 0 ? false : current.checked,
+            selected: nextSelected,
           }
         })
     }
-  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox])
+  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox, user.name])
 
   return (
     <>

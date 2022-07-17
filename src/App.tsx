@@ -15,7 +15,7 @@ function App() {
   const [checkbox, setChechbox] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
-    selected: 0,
+    selected: new Set<string>(),
   })
 
   const toggleTerminated = () => {
@@ -52,6 +52,7 @@ function App() {
               newUsersMap.set(current[i].name, current[i])
             }
 
+            // Only add not existing users
             for (let i = 0; i < terminatedUsers.length; i++) {
               if (!newUsersMap.has(terminatedUsers[i].name))
                 newUsersMap.set(terminatedUsers[i].name, terminatedUsers[i])
@@ -73,6 +74,7 @@ function App() {
     setAppStatus(AppStatus.idle)
   }, [terminated])
 
+  // Set max when user counts change
   useEffect(() => {
     setChechbox(current => ({
       ...current,
@@ -107,6 +109,7 @@ function App() {
                 <tr>
                   <th className="collapsing center aligned">
                     <ParentCheckbox
+                      users={users}
                       parentCheckbox={checkbox}
                       setParentCheckbox={setChechbox}
                     />
@@ -132,8 +135,12 @@ function App() {
       )}
 
       <SelectedDropdown
-        text={checkbox.selected > 0 ? ` ${checkbox.selected} selected` : ' '}
-        selected={checkbox.selected}
+        text={
+          checkbox.selected.size > 0
+            ? ` ${checkbox.selected.size} selected`
+            : ' '
+        }
+        selected={checkbox.selected.size}
       />
     </div>
   )

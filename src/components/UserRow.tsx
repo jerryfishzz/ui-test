@@ -17,6 +17,7 @@ export default function UserRow({
       <td>
         <div className="ui checkbox">
           <ChildCheckbox
+            user={user}
             checkedFromParent={checkedFromParent}
             setParentCheckbox={setParentCheckbox}
           />

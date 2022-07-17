@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react'
+import ts from 'typescript'
 
 // States
 
@@ -30,7 +31,7 @@ export enum AppStatus {
 export interface ParentCheckboxState {
   max: number
   checked: boolean
-  selected: number
+  selected: ts.Set<string>
 }
 
 export interface ChildCheckboxState {
@@ -43,11 +44,13 @@ export interface ChildCheckboxState {
 // Component props
 
 export interface ParentCheckboxProps {
+  users: User[]
   parentCheckbox: ParentCheckboxState
   setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
 }
 
 export interface ChildCheckboxProps {
+  user: User
   checkedFromParent: boolean
   setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
 }
