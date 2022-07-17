@@ -26,6 +26,7 @@ export default function ParentCheckbox({
     }))
   }
 
+  // Set indeterminate
   useEffect(() => {
     if (selected.size > 0 && selected.size < max) {
       if (inputRef.current) inputRef.current.indeterminate = true
@@ -33,6 +34,14 @@ export default function ParentCheckbox({
       if (inputRef.current) inputRef.current.indeterminate = false
     }
   }, [max, selected.size])
+
+  // Set max when user counts change
+  useEffect(() => {
+    setParentCheckbox(current => ({
+      ...current,
+      max: users.length,
+    }))
+  }, [setParentCheckbox, users.length])
 
   return (
     <div className="ui checkbox">

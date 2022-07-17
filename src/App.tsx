@@ -105,14 +105,6 @@ function App() {
     setAppStatus(AppStatus.idle)
   }, [terminated])
 
-  // Set max when user counts change
-  useEffect(() => {
-    setChechbox(current => ({
-      ...current,
-      max: users.length,
-    }))
-  }, [users.length])
-
   return (
     <div className="ui text container">
       <h1>UI Test</h1>
