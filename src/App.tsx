@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import SelectedDropdown from './components/SelectedDropdown'
 import Switch from './components/Switch'
 import UserRow from './components/UserRow'
-import { duplicateSet } from './utils/helper'
-import { getActiveUsers, getTerminatedUsers } from './utils/server'
-import { AppStatus, ParentCheckboxState, Status, User } from './utils/types'
+import { useUsers } from './utils/customHooks'
+
+import { AppStatus, ParentCheckboxState, User } from './utils/types'
 
 const compareFunc = (a: User, b: User) => {
   if (a.name < b.name) return -1
@@ -15,10 +15,7 @@ const compareFunc = (a: User, b: User) => {
 }
 
 function App() {
-  const [users, setUsers] = useState<User[]>([])
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
-
-  const [terminated, setTerminated] = useState<boolean>(false)
 
   const [checkbox, setChechbox] = useState<ParentCheckboxState>({
     max: 0,
@@ -26,85 +23,11 @@ function App() {
     selected: new Set<string>(),
   })
 
-  const toggleTerminated = () => {
-    if (terminated) {
-      // To active
-      const terminatedUserNames: string[] = users
-        .filter(user => user.status === Status.terminated)
-        .map(user => user.name)
-
-      if (terminatedUserNames.length > 0) {
-        setChechbox(current => {
-          const nextSelected = duplicateSet(current.selected)
-
-          // Remove terminated from selected
-          for (let i = 0; i < terminatedUserNames.length; i++) {
-            nextSelected.delete(terminatedUserNames[i])
-          }
-
-          const nextMax = current.max - terminatedUserNames.length
-
-          return {
-            selected: nextSelected,
-            max: nextMax,
-            checked:
-              nextSelected.size === 0
-                ? false
-                : nextSelected.size === nextMax
-                ? true
-                : current.checked,
-          }
-        })
-      }
-    }
-
-    setTerminated(current => !current)
-  }
-
-  useEffect(() => {
-    setAppStatus(AppStatus.loading)
-
-    if (!terminated) {
-      getActiveUsers()
-        .then(users => {
-          setUsers(users)
-        })
-        .catch(err => {
-          console.log(err)
-          setAppStatus(AppStatus.idle)
-        })
-    } else {
-      getTerminatedUsers()
-        .then(terminatedUsers => {
-          setUsers(current => {
-            let newUsers: User[] = []
-
-            const newUsersMap = new Map<string, User>()
-            for (let i = 0; i < current.length; i++) {
-              newUsersMap.set(current[i].name, current[i])
-            }
-
-            // Only add not existing users
-            for (let i = 0; i < terminatedUsers.length; i++) {
-              if (!newUsersMap.has(terminatedUsers[i].name))
-                newUsersMap.set(terminatedUsers[i].name, terminatedUsers[i])
-            }
-
-            newUsersMap.forEach((value: User) => {
-              newUsers.push(value)
-            })
-
-            return newUsers
-          })
-        })
-        .catch(err => {
-          console.log(err)
-          setAppStatus(AppStatus.idle)
-        })
-    }
-
-    setAppStatus(AppStatus.idle)
-  }, [terminated])
+  // Server requests
+  const [users, terminated, toggleTerminated] = useUsers(
+    setChechbox,
+    setAppStatus
+  )
 
   return (
     <div className="ui text container">

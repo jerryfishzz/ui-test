@@ -23,6 +23,11 @@ export interface User {
   status: Status
 }
 
+export interface Users {
+  users: User[]
+  terminated: boolean
+}
+
 export enum AppStatus {
   loading,
   idle,
