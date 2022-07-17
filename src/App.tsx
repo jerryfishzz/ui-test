@@ -5,14 +5,9 @@ import SelectedDropdown from './components/SelectedDropdown'
 import Switch from './components/Switch'
 import UserRow from './components/UserRow'
 import { useUsers } from './utils/customHooks'
+import { compareUserName } from './utils/helper'
 
-import { AppStatus, ParentCheckboxState, User } from './utils/types'
-
-const compareFunc = (a: User, b: User) => {
-  if (a.name < b.name) return -1
-  if (a.name > b.name) return 1
-  return 0
-}
+import { AppStatus, ParentCheckboxState } from './utils/types'
 
 function App() {
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
@@ -62,7 +57,7 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {users.sort(compareFunc).map(user => (
+                {users.sort(compareUserName).map(user => (
                   <UserRow
                     key={user.name}
                     user={user}
