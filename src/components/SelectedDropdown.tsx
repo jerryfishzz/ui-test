@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Dropdown, Transition } from 'semantic-ui-react'
 import { SelectedDropdownProps } from '../utils/types'
 
@@ -18,21 +19,32 @@ export default function SelectedDropdown({
   text,
   selected,
 }: SelectedDropdownProps) {
+  const [visibale, setVisible] = useState<boolean>(false)
+
+  const handleClick = () => {
+    setVisible(current => !current)
+  }
+
+  useEffect(() => {
+    if (selected === 0) setVisible(false)
+  }, [selected])
+
   return (
-    <Transition visible={selected !== 0}>
-      <Dropdown
-        trigger={trigger(text)}
-        pointing
-        icon={null}
-        button
-        disabled={selected === 0}
-      >
+    <Dropdown
+      trigger={trigger(text)}
+      pointing
+      icon={null}
+      button
+      disabled={selected === 0}
+      onClick={handleClick}
+    >
+      <Transition visible={visibale} animation="slide down" duration={100}>
         <Dropdown.Menu>
           {options.map(option => (
             <Dropdown.Item {...option} />
           ))}
         </Dropdown.Menu>
-      </Dropdown>
-    </Transition>
+      </Transition>
+    </Dropdown>
   )
 }
