@@ -58,6 +58,11 @@ export interface UserRowProps {
   setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
 }
 
+export interface SelectedDropdownProps {
+  text: string
+  selected: number
+}
+
 /*****************************************************/
 
 // Misc

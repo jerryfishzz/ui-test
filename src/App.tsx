@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
+import SelectedDropdown from './components/SelectedDropdown'
 import UserRow from './components/UserRow'
 import { getUsers } from './utils/server'
 import { AppStatus, ParentCheckboxState, User } from './utils/types'
@@ -82,24 +83,10 @@ function App() {
         </>
       )}
 
-      <div>
-        <button
-          id="bulk-actions"
-          className={`ui ${
-            checkbox.selected === 0 ? 'disabled' : ''
-          } pointing dropdown button`}
-        >
-          <span>
-            <i className="cog icon"></i>
-            {checkbox.selected > 0 && ` ${checkbox.selected} selected`}
-          </span>
-          <div className="menu">
-            <div className="item">Bulk Action 1</div>
-            <div className="item">Bulk Action 2</div>
-            <div className="item">Bulk Action 3</div>
-          </div>
-        </button>
-      </div>
+      <SelectedDropdown
+        text={checkbox.selected > 0 ? ` ${checkbox.selected} selected` : ' '}
+        selected={checkbox.selected}
+      />
     </div>
   )
 }
