@@ -1,4 +1,4 @@
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Transition } from 'semantic-ui-react'
 import { SelectedDropdownProps } from '../utils/types'
 
 const trigger = (text: string) => (
@@ -19,18 +19,20 @@ export default function SelectedDropdown({
   selected,
 }: SelectedDropdownProps) {
   return (
-    <Dropdown
-      trigger={trigger(text)}
-      pointing
-      icon={null}
-      button
-      disabled={selected === 0}
-    >
-      <Dropdown.Menu>
-        {options.map(option => (
-          <Dropdown.Item {...option} />
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
+    <Transition visible={selected !== 0}>
+      <Dropdown
+        trigger={trigger(text)}
+        pointing
+        icon={null}
+        button
+        disabled={selected === 0}
+      >
+        <Dropdown.Menu>
+          {options.map(option => (
+            <Dropdown.Item {...option} />
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    </Transition>
   )
 }
