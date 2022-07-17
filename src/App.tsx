@@ -85,10 +85,13 @@ function App() {
       <div>
         <button
           id="bulk-actions"
-          className="ui disabled pointing dropdown button"
+          className={`ui ${
+            checkbox.selected === 0 ? 'disabled' : ''
+          } pointing dropdown button`}
         >
           <span>
             <i className="cog icon"></i>
+            {checkbox.selected > 0 && ` ${checkbox.selected} selected`}
           </span>
           <div className="menu">
             <div className="item">Bulk Action 1</div>
