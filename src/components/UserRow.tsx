@@ -1,5 +1,5 @@
-import { useCheckbox } from '../utils/customHooks'
 import { ColorClasses, Status, UserRowProps } from '../utils/types'
+import ChildCheckbox from './ChildCheckbox'
 
 const createClassName = (status: Status): string => {
   const statusClassName =
@@ -9,22 +9,17 @@ const createClassName = (status: Status): string => {
 
 export default function UserRow({
   user,
-  length,
-  checkedFromAbove,
-  setSelected,
+  checkedFromParent,
+  setParentCheckbox,
 }: UserRowProps) {
-  const [checked, , handleChange] = useCheckbox(
-    length,
-    checkedFromAbove,
-    setSelected
-  )
-
   return (
     <tr key={user.name}>
       <td>
         <div className="ui checkbox">
-          <input type="checkbox" checked={checked} onChange={handleChange} />
-          <label></label>
+          <ChildCheckbox
+            checkedFromParent={checkedFromParent}
+            setParentCheckbox={setParentCheckbox}
+          />
         </div>
       </td>
       <td>{user.name}</td>

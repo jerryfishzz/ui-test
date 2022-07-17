@@ -3,16 +3,13 @@ import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import UserRow from './components/UserRow'
 import { getUsers } from './utils/server'
-import { AppStatus, Checkbox, User } from './utils/types'
+import { AppStatus, ParentCheckboxState, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
 
-  const [selected, setSelected] = useState<number>(0)
-  const [checked, setChecked] = useState<boolean>(false)
-
-  const [checkbox, setChechbox] = useState<Checkbox>({
+  const [checkbox, setChechbox] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
     selected: 0,
@@ -75,9 +72,8 @@ function App() {
                   <UserRow
                     key={user.name}
                     user={user}
-                    checkedFromAbove={checked}
-                    setSelected={setSelected}
-                    length={users.length}
+                    checkedFromParent={checkbox.checked}
+                    setParentCheckbox={setChechbox}
                   />
                 ))}
               </tbody>
