@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import SelectedDropdown from './components/SelectedDropdown'
+import Switch from './components/Switch'
 import UserRow from './components/UserRow'
 import { duplicateSet } from './utils/helper'
 import { getActiveUsers, getTerminatedUsers } from './utils/server'
@@ -113,16 +114,11 @@ function App() {
         <p>Loading</p>
       ) : (
         <>
-          <div>
-            <div id="toggle-terminated" className="ui toggle checkbox">
-              <input
-                type="checkbox"
-                checked={terminated}
-                onChange={toggleTerminated}
-              />
-              <label>Show Terminated Employees</label>
-            </div>
-          </div>
+          <Switch
+            checked={terminated}
+            handleChange={toggleTerminated}
+            label="Show Terminated Employees"
+          />
 
           {users.length === 0 ? (
             <p>No users found.</p>

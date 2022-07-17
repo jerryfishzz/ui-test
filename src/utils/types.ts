@@ -62,6 +62,12 @@ export interface SelectedDropdownProps {
   selected: number
 }
 
+export interface SwitchProps {
+  checked: boolean
+  label: string
+  handleChange: () => void
+}
+
 /*****************************************************/
 
 // Misc
