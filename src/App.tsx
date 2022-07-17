@@ -3,12 +3,14 @@ import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import SelectedDropdown from './components/SelectedDropdown'
 import UserRow from './components/UserRow'
-import { getUsers } from './utils/server'
+import { getActiveUsers, getTerminatedUsers } from './utils/server'
 import { AppStatus, ParentCheckboxState, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
+
+  const [terminated, setTerminated] = useState<boolean>(false)
 
   const [checkbox, setChechbox] = useState<ParentCheckboxState>({
     max: 0,
@@ -16,25 +18,60 @@ function App() {
     selected: 0,
   })
 
+  const toggleTerminated = () => {
+    console.log('checked')
+    setTerminated(current => !current)
+  }
+
   useEffect(() => {
     setAppStatus(AppStatus.loading)
-    getUsers()
-      .then(users => {
-        // console.log(users)
-        setUsers(users)
 
-        setChechbox(current => ({
-          ...current,
-          max: users.length,
-        }))
+    if (!terminated) {
+      getActiveUsers()
+        .then(users => {
+          // console.log(users)
+          setUsers(users)
 
-        setAppStatus(AppStatus.idle)
-      })
-      .catch(err => {
-        console.log(err)
-        setAppStatus(AppStatus.idle)
-      })
-  }, [])
+          setChechbox(current => ({
+            ...current,
+            max: users.length,
+          }))
+        })
+        .catch(err => {
+          console.log(err)
+          setAppStatus(AppStatus.idle)
+        })
+    } else {
+      getTerminatedUsers()
+        .then(terminatedUsers => {
+          setUsers(current => {
+            let newUsers: User[] = []
+
+            const newUsersMap = new Map<string, User>()
+            for (let i = 0; i < current.length; i++) {
+              newUsersMap.set(current[i].name, current[i])
+            }
+
+            for (let i = 0; i < terminatedUsers.length; i++) {
+              if (!newUsersMap.has(terminatedUsers[i].name))
+                newUsersMap.set(terminatedUsers[i].name, terminatedUsers[i])
+            }
+
+            newUsersMap.forEach((value: User) => {
+              newUsers.push(value)
+            })
+
+            return newUsers
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          setAppStatus(AppStatus.idle)
+        })
+    }
+
+    setAppStatus(AppStatus.idle)
+  }, [terminated])
 
   return (
     <div className="ui text container">
@@ -46,7 +83,11 @@ function App() {
         <>
           <div>
             <div id="toggle-terminated" className="ui toggle checkbox">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={terminated}
+                onChange={toggleTerminated}
+              />
               <label>Show Terminated Employees</label>
             </div>
           </div>

@@ -17,6 +17,14 @@ const store: User[] = [
   },
 ]
 
-export const getUsers = (): Promise<User[]> => {
-  return Promise.resolve(store)
+export const getActiveUsers = (): Promise<User[]> => {
+  const activeUsers = store.filter(user => user.status === Status.active)
+  return Promise.resolve(activeUsers)
+}
+
+export const getTerminatedUsers = (): Promise<User[]> => {
+  const terminatedUsers = store.filter(
+    user => user.status === Status.terminated
+  )
+  return Promise.resolve(terminatedUsers)
 }
