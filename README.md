@@ -6,11 +6,11 @@ Run `npm install`, then `npm start`. Enjoy it: )
 
 ## Different behavior
 
-I notice the example won't change the checkbox status for those users who will be toggled on and off by show terminated enployees. When they are toggled off then on again, they will still keep the status as they were before toggling off.
+I notice the example won't change the checkbox status for those users who will be toggled on and off by show terminated employees. When they are toggled off then on again, they will still keep the status as they were before toggling off.
 
 In my work, when the user is toggled off by the switch, its checkbox status will always be reset to false.
 
-Since the toggle botton makes server requests and update users, I think users who have been removed from the client side shouldn't still have their status in the app.
+Since the toggle button makes server requests and update users, I think users who have been removed from the client side shouldn't still have their status in the app.
 
 ## Issues
 
@@ -22,4 +22,4 @@ Since the toggle botton makes server requests and update users, I think users wh
 
   This file is located at the app root folder and solve another issue from semantic ui in their css file. More info:  [[BUG] Error using semantic-ui-css to create-react-app #7073](https://github.com/Semantic-Org/Semantic-UI/issues/7073).
 
-  This file can solve the extra `;` probelem when the app is compiling. It should work both on Windows and Mac.
+  This file can solve the extra `;` problem when the app is compiling. It should work both on Windows and Mac.
