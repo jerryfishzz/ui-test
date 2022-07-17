@@ -52,12 +52,8 @@ export interface ParentCheckboxProps {
 export interface ChildCheckboxProps {
   user: User
   checkedFromParent: boolean
-  setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
-}
-
-export interface UserRowProps {
-  user: User
-  checkedFromParent: boolean
+  selected: ts.Set<string>
+  max: number
   setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
 }
 

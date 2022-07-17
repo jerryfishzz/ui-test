@@ -3,8 +3,9 @@ import './App.css'
 import ParentCheckbox from './components/ParentCheckbox'
 import SelectedDropdown from './components/SelectedDropdown'
 import UserRow from './components/UserRow'
+import { duplicateSet } from './utils/helper'
 import { getActiveUsers, getTerminatedUsers } from './utils/server'
-import { AppStatus, ParentCheckboxState, User } from './utils/types'
+import { AppStatus, ParentCheckboxState, Status, User } from './utils/types'
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -20,6 +21,38 @@ function App() {
 
   const toggleTerminated = () => {
     console.log('checked')
+
+    if (terminated) {
+      // To active
+      const terminatedUserNames: string[] = users
+        .filter(user => user.status === Status.terminated)
+        .map(user => user.name)
+
+      if (terminatedUserNames.length > 0) {
+        setChechbox(current => {
+          const nextSelected = duplicateSet(current.selected)
+
+          // Remove terminated from selected
+          for (let i = 0; i < terminatedUserNames.length; i++) {
+            nextSelected.delete(terminatedUserNames[i])
+          }
+
+          const nextMax = current.max - terminatedUserNames.length
+
+          return {
+            selected: nextSelected,
+            max: nextMax,
+            checked:
+              nextSelected.size === 0
+                ? false
+                : nextSelected.size === nextMax
+                ? true
+                : current.checked,
+          }
+        })
+      }
+    }
+
     setTerminated(current => !current)
   }
 
@@ -29,13 +62,7 @@ function App() {
     if (!terminated) {
       getActiveUsers()
         .then(users => {
-          // console.log(users)
           setUsers(users)
-
-          setChechbox(current => ({
-            ...current,
-            max: users.length,
-          }))
         })
         .catch(err => {
           console.log(err)
@@ -125,6 +152,8 @@ function App() {
                     key={user.name}
                     user={user}
                     checkedFromParent={checkbox.checked}
+                    selected={checkbox.selected}
+                    max={checkbox.max}
                     setParentCheckbox={setChechbox}
                   />
                 ))}

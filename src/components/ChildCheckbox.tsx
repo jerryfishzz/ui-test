@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react'
-import ts from 'typescript'
+import { duplicateSet } from '../utils/helper'
 import { ChildCheckboxState, ChildCheckboxProps } from '../utils/types'
-
-const getNextSelected = (currentSelected: ts.Set<string>) => {
-  const nextSelected: string[] = []
-  currentSelected.forEach(value => nextSelected.push(value))
-
-  return new Set<string>(nextSelected)
-}
 
 export default function ChildCheckbox({
   user,
   checkedFromParent,
+  selected,
+  max,
   setParentCheckbox,
 }: ChildCheckboxProps) {
   const [checkbox, setCheckbox] = useState<ChildCheckboxState>({
@@ -29,11 +24,17 @@ export default function ChildCheckbox({
   // Downward
   // Sync parent checkbox
   useEffect(() => {
-    setCheckbox({
-      checked: checkedFromParent,
-      fromParent: true,
-    })
-  }, [checkedFromParent])
+    const selectedSize = selected.size
+    const isSelected = selected.has(user.name)
+
+    if ((max === selectedSize && isSelected) || selectedSize === 0) {
+      console.log(max, selectedSize)
+      setCheckbox({
+        checked: checkedFromParent,
+        fromParent: true,
+      })
+    }
+  }, [checkedFromParent, max, selected, user.name])
 
   // Upward
   // Update parent selected when checked change is initialized by the component itself
@@ -41,7 +42,7 @@ export default function ChildCheckbox({
     if (checkbox.checked) {
       if (checkbox.fromParent === false) {
         setParentCheckbox(current => {
-          const nextSelected = getNextSelected(current.selected)
+          const nextSelected = duplicateSet(current.selected)
           nextSelected.add(user.name)
 
           return {
@@ -54,7 +55,7 @@ export default function ChildCheckbox({
     } else {
       if (checkbox.fromParent === false)
         setParentCheckbox(current => {
-          const nextSelected = getNextSelected(current.selected)
+          const nextSelected = duplicateSet(current.selected)
           nextSelected.delete(user.name)
 
           return {

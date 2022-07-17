@@ -1,4 +1,4 @@
-import { ColorClasses, Status, UserRowProps } from '../utils/types'
+import { ChildCheckboxProps, ColorClasses, Status } from '../utils/types'
 import ChildCheckbox from './ChildCheckbox'
 
 const createClassName = (status: Status): string => {
@@ -10,8 +10,10 @@ const createClassName = (status: Status): string => {
 export default function UserRow({
   user,
   checkedFromParent,
+  selected,
+  max,
   setParentCheckbox,
-}: UserRowProps) {
+}: ChildCheckboxProps) {
   return (
     <tr key={user.name}>
       <td>
@@ -19,6 +21,8 @@ export default function UserRow({
           <ChildCheckbox
             user={user}
             checkedFromParent={checkedFromParent}
+            selected={selected}
+            max={max}
             setParentCheckbox={setParentCheckbox}
           />
         </div>
