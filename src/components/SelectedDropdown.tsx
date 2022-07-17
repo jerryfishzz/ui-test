@@ -38,7 +38,7 @@ export default function SelectedDropdown({
       disabled={selected === 0}
       onClick={handleClick}
     >
-      <Transition visible={visibale} animation="slide down" duration={100}>
+      <Transition visible={visibale} animation="slide down" duration={200}>
         <Dropdown.Menu>
           {options.map(option => (
             <Dropdown.Item {...option} />
