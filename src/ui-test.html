@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>UI Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<style>
+h1{
+	padding: 2rem 0;
+}
+table{
+	padding-top: 2rem;
+}
+tr[data-terminated]{
+	display: none;
+}
+#bulk-actions label{
+	pointer-events: none;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<div class="ui text container">
+	<h1>UI Test</h1>
+	<div>
+		<div id="toggle-terminated" class="ui toggle checkbox">
+		    <input type="checkbox">
+		    <label>Show Terminated Employees</label>
+		</div>
+	</div>
+    <table class="ui very basic table">
+        <thead>
+    		<tr>
+    			<th class="collapsing center aligned">
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</th>
+				<th>Name</th>
+				<th>Department</th>
+				<th class="right aligned">Status</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+			<tr>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Alex</td>
+				<td>Sales</td>
+				<td class="right aligned"><span class="ui green label">Active</span></td>
+    		</tr>
+    		<tr>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Brian</td>
+				<td>Marketing</td>
+				<td class="right aligned"><span class="ui green label">Active</span></td>
+    		</tr>
+			<tr data-terminated>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Caroline</td>
+				<td>Human Resources</td>
+				<td class="right aligned"><span class="ui black label">Terminated</span></td>
+    		</tr>
+			<tr>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Diana</td>
+				<td>Support</td>
+				<td class="right aligned"><span class="ui green label">Active</span></td>
+    		</tr>
+			<tr>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Ernest</td>
+				<td>Product</td>
+				<td class="right aligned"><span class="ui green label">Active</span></td>
+    		</tr>
+			<tr data-terminated>
+    			<td>
+					<div class="ui checkbox">
+					    <input type="checkbox">
+					    <label></label>
+					</div>
+				</td>
+				<td>Fred</td>
+				<td>Accounting</td>
+				<td class="right aligned"><span class="ui black label">Terminated</span></td>
+    		</tr>
+    	</tbody>
+    </table>
+	<div>
+		<button id="bulk-actions" class="ui disabled pointing dropdown button">
+			<span><i class="cog icon"></i></span>
+			<div class="menu">
+				<div class="item">Bulk Action 1</div>
+				<div class="item">Bulk Action 2</div>
+				<div class="item">Bulk Action 3</div>
+			</div>
+		</button>
+	</div>
+</div>
+
+<script>
+$('#toggle-terminated').checkbox({
+	onChange: function(){
+		$('tr[data-terminated]').toggle();
+		countChecked();
+	}
+});
+
+$('table thead .ui.checkbox').checkbox({
+	onChecked: function(){
+		$('table tbody .ui.checkbox:visible').checkbox('set checked');
+		countChecked();
+	},
+	onUnchecked: function(){
+		$('table tbody .ui.checkbox:visible').checkbox('set unchecked');
+		countChecked();
+	}
+});
+
+$('table tbody .ui.checkbox').checkbox({
+	onChange: function(){
+		countChecked();
+	}
+});
+
+function countChecked(){
+	var totalChecked = $('table tbody .ui.checkbox.checked:visible').length;
+	if(totalChecked > 0){
+		$('#bulk-actions').removeClass('disabled')
+		$('#bulk-actions span').html('<i class="cog icon"></i> ' + totalChecked + ' selected');
+		if(totalChecked == $('table tbody .ui.checkbox:visible').length){
+			$('table thead .ui.checkbox').checkbox('set checked');
+		}else{
+			$('table thead .ui.checkbox').checkbox('set indeterminate');
+		}
+	}else{
+		$('#bulk-actions').addClass('disabled')
+		$('#bulk-actions span').html('<i class="cog icon"></i>');
+		$('table thead .ui.checkbox').checkbox('set unchecked');
+	}
+}
+
+
+$('#bulk-actions').dropdown();
+
+</script>
+
+
+</body>
+</html>
