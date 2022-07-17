@@ -28,7 +28,6 @@ export default function ChildCheckbox({
     const isSelected = selected.has(user.name)
 
     if ((max === selectedSize && isSelected) || selectedSize === 0) {
-      console.log(max, selectedSize)
       setCheckbox({
         checked: checkedFromParent,
         fromParent: true,

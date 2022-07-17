@@ -26,8 +26,6 @@ function App() {
   })
 
   const toggleTerminated = () => {
-    console.log('checked')
-
     if (terminated) {
       // To active
       const terminatedUserNames: string[] = users
