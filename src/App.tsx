@@ -7,6 +7,12 @@ import { duplicateSet } from './utils/helper'
 import { getActiveUsers, getTerminatedUsers } from './utils/server'
 import { AppStatus, ParentCheckboxState, Status, User } from './utils/types'
 
+const compareFunc = (a: User, b: User) => {
+  if (a.name < b.name) return -1
+  if (a.name > b.name) return 1
+  return 0
+}
+
 function App() {
   const [users, setUsers] = useState<User[]>([])
   const [appStatus, setAppStatus] = useState<AppStatus>(AppStatus.idle)
@@ -147,7 +153,7 @@ function App() {
                 </tr>
               </thead>
               <tbody>
-                {users.map(user => (
+                {users.sort(compareFunc).map(user => (
                   <UserRow
                     key={user.name}
                     user={user}
