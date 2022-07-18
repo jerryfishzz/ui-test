@@ -76,10 +76,9 @@ export const useUsers = (
               newUsersMap.set(current.users[i].name, current.users[i])
             }
 
-            // Only add not existing users
+            // Add new or update existing users
             for (let i = 0; i < terminatedUsers.length; i++) {
-              if (!newUsersMap.has(terminatedUsers[i].name))
-                newUsersMap.set(terminatedUsers[i].name, terminatedUsers[i])
+              newUsersMap.set(terminatedUsers[i].name, terminatedUsers[i])
             }
 
             newUsersMap.forEach((value: User) => {
