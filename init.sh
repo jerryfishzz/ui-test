@@ -5,4 +5,4 @@ if [[ "$CHECK_OS" = "Darwin" ]]; then
 else 
     sed -i 's/;;/;/g' node_modules/semantic-ui-css/semantic.min.css
     sed -i 's/;;/;/g' node_modules/semantic-ui-css/semantic.css
-fi
+fiui-test
